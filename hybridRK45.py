@@ -13,7 +13,8 @@
 
 
 
-from numpy import array,asarray,abs,sqrt,finfo,minimum,maximum,concatenate
+from numpy import array,asarray,sqrt,finfo,minimum,maximum,concatenate
+from numpy import abs as np_abs
 from numpy import max as np_max
 from numpy import min as np_min
 from numpy.linalg import eigvals,norm
@@ -112,7 +113,7 @@ class SolverExplicit45:
         """
         # If f is coupled ODEs, y is an array. We thus take Euclidean norm
         norm_y = norm(y,ord=2)
-        return self.atol + self.rtol*abs(norm_y)
+        return self.atol + self.rtol*np_abs(norm_y)
     
     def update_step_size(self,dt,tol,err,p):
         """
@@ -135,7 +136,7 @@ class SolverExplicit45:
         # minimum step size that can be tolerated
         dt_minimum = 10*epsilon
         # check if dt is too small
-        if abs(dt) < dt_minimum:
+        if np_abs(dt) < dt_minimum:
             return True
         else:
             return False
@@ -324,10 +325,10 @@ def stiffness_ratio(f,t,y,dt=None,show_jac=False):
     if n == 1:
         # jac is a single value.
         # Suffix .item() converts a (1,) or (1,1) array into a scalar
-        R = abs(jac).item()
+        R = np_abs(jac).item()
     else:
         # Eigenvalues can be evaluated if jac is a squared matrix
-        abs_eigvals = abs(eigvals(jac))
+        abs_eigvals = np_abs(eigvals(jac))
         R = np_max(abs_eigvals)/np_min(abs_eigvals)
 
     if show_jac is True:

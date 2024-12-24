@@ -3,3 +3,5 @@
 .gitattributes
 .DS_Store
 .ipynb_checkpoints
+examples/__pycache__/hybridRK45.cpython-312.pyc
+examples/hybridRK45.py
